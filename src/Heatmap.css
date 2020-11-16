@@ -1,5 +1,6 @@
 .container {
-  /* background: #292929; */
-  background: white;
+  background: #292929;
+  /* background: white; */
+  padding: 10px;
   height: 100vh;
 }

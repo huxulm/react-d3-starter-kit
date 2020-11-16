@@ -13,22 +13,22 @@ export default function () {
   const d3svg = useRef<SVGSVGElement>(null);
   const [margin, setMargin] = useState({
     top: 20,
-    right: 0,
+    right: 20,
     bottom: 20,
     left: 20,
   });
 
   const [dimensions, setDimensions] = useState({
-    width: 1250 - margin.left - margin.right,
-    height: 800 - margin.top - margin.bottom,
+    width: 600 - margin.left - margin.right,
+    height: 450 - margin.top - margin.bottom,
   });
   const { width, height } = dimensions;
   useEffect(() => {
-    setDimensions((dimensions) => ({
-      ...dimensions,
-      width: window.innerWidth - margin.top - margin.bottom,
-      height: window.innerHeight - margin.top - margin.bottom,
-    }));
+    // setDimensions((dimensions) => ({
+    //   ...dimensions,
+    //   width: window.innerWidth - margin.top - margin.bottom,
+    //   height: window.innerHeight - margin.top - margin.bottom,
+    // }));
   }, []);
 
   useEffect(() => {
@@ -38,8 +38,8 @@ export default function () {
     let svg = select(d3svg.current);
     svg.selectAll("g").remove();
     svg
-      .attr("width", dimensions.width + margin.left + margin.right)
-      .attr("height", dimensions.height + margin.top + margin.bottom)
+      .attr("width", dimensions.width)
+      .attr("height", dimensions.height)
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     //Read the data
@@ -58,14 +58,17 @@ export default function () {
       svg
         .append("g")
         .style("font-size", 15)
-        .attr("transform", "translate(0," + height + ")")
+        .attr("transform", "translate(0," + (height - margin.bottom) + ")")
         .attr("color", "white")
-        .call(axisBottom(x).tickSize(0).ticks(10))
+        .call(axisBottom(x).tickSize(0))
         .select(".domain")
         .remove();
 
       // Build Y scales and axis:
-      var y = scaleBand().range([height, 0]).domain(myVars).padding(0.02);
+      var y = scaleBand()
+        .range([height - margin.bottom, 0])
+        .domain(myVars)
+        .padding(0.02);
       svg
         .append("g")
         .attr("transform", `translate(25, 0)`)
@@ -114,13 +117,12 @@ export default function () {
         tooltip_txt.style("opacity", 1);
         tooltip_bg.style("opacity", 1);
         tooltip_txt.text(d.value);
-        select(e.currentTarget).attr("stroke-width", 4)
-        select(e.currentTarget).attr("stroke", "black")
+        select(e.currentTarget).attr("stroke-width", 1).attr("stroke", "white");
       };
       var mouseleave = function (e: any, d: any) {
         tooltip.style("visibility", "hide");
         tooltip_txt.attr("opacity", 0);
-        select(e.currentTarget).attr("stroke", "none")
+        select(e.currentTarget).attr("stroke", "none");
       };
 
       const t = svg.transition().duration(2000);
