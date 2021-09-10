@@ -1,22 +1,43 @@
-import React from 'react';
-import './App.css';
-
+import { withScreenSize } from "@visx/responsive";
+import React from "react";
+import GeoDemo from "src/components/demo/GeoDemo";
+import ZoomDemo from "./components/demo/ZoomDemo";
+import GeoChina from "./components/demo/GeoChina";
+import "./App.css";
+import GeoNigiaState from "./components/demo/GeoNigiaState";
+import GeoUrumq from "./components/demo/GeoUrumq";
+const Demos = [
+  {
+    name: "Geo Urumq",
+    Component: GeoUrumq,
+  },
+  {
+    name: "Geo China",
+    Component: GeoChina,
+  },
+  {
+    name: "Nigia state",
+    Component: GeoNigiaState,
+  },
+  {
+    name: "Geo demo",
+    Component: GeoDemo,
+  },
+  {
+    name: "Zoom demo",
+    Component: ZoomDemo,
+  },
+];
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="demo-container">
+        {Demos.map(({ Component }) => (
+          <div className="box">
+            <Component />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
